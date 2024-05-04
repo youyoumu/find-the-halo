@@ -35,7 +35,7 @@ export default function FindTheHalo() {
       <ul
         tabIndex={0}
         className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
-        style={{ left: `${markX}px`, top: `${markY + 36}px` }}
+        style={{ left: `${markX}px`, top: `${markY + 24}px` }}
       >
         <li>
           <a>Item 1</a>
