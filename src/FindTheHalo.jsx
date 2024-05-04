@@ -1,8 +1,11 @@
+import image0 from './images/0.png'
+
 export default function FindTheHalo() {
   return (
     <div>
-      <h1>Find The Halo</h1>
-      <button className="btn">button</button>
+      <div id="image-container">
+        <img src={image0} />
+      </div>
     </div>
   )
 }
