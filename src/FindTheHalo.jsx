@@ -1,6 +1,7 @@
 import image0 from './images/0.png'
 import { useRef, useState } from 'react'
 import Dropdown from './components/Dropdown'
+import { FetchRequest } from '@rails/request.js'
 
 export default function FindTheHalo() {
   const imageContainer = useRef(null)
@@ -46,6 +47,18 @@ export default function FindTheHalo() {
       </ul>
     )
 
+    async function myMethod() {
+      const request = new FetchRequest('post', 'http://127.0.0.1:3000/game', {
+        body: JSON.stringify({ x, y })
+      })
+      const response = await request.perform()
+      if (response.ok) {
+        const body = await response.text
+        console.log(body)
+      }
+    }
+
+    myMethod()
     console.log(x, y)
   }
 
