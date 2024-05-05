@@ -66,7 +66,7 @@ export default function FindTheHalo() {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ x, y, gameId })
+        body: JSON.stringify({ x, y, game_id: gameId, image_id: imageId })
       })
       console.log(request)
     }
