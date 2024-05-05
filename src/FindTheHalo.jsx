@@ -1,13 +1,13 @@
 import image0 from './images/0.png'
 import { useRef, useState, useEffect } from 'react'
 import Dropdown from './components/Dropdown'
-import { FetchRequest } from '@rails/request.js'
 
 export default function FindTheHalo() {
   const imageContainer = useRef(null)
   const [Mark, setMark] = useState(null)
   const [Options, setOptions] = useState(null)
   const [imageId, setImageId] = useState(null)
+  const [gameId, setGameId] = useState(null)
   const images = [image0]
 
   useEffect(() => {
@@ -15,7 +15,8 @@ export default function FindTheHalo() {
       const request = await fetch('http://127.0.0.1:3000/')
       const response = await request.json()
       console.log(response)
-      setImageId(response)
+      setImageId(response.image_id)
+      setGameId(response.game_id)
     }
     getNewGame()
   }, [])
@@ -60,14 +61,14 @@ export default function FindTheHalo() {
     )
 
     async function myMethod() {
-      const request = new FetchRequest('post', 'http://127.0.0.1:3000/game', {
-        body: JSON.stringify({ x, y })
+      const request = await fetch('http://127.0.0.1:3000/game', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ x, y, gameId })
       })
-      const response = await request.perform()
-      if (response.ok) {
-        const body = await response.text
-        console.log(body)
-      }
+      console.log(request)
     }
 
     myMethod()
