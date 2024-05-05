@@ -1,5 +1,5 @@
 import image0 from './images/0.png'
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import Dropdown from './components/Dropdown'
 import { FetchRequest } from '@rails/request.js'
 
@@ -7,6 +7,18 @@ export default function FindTheHalo() {
   const imageContainer = useRef(null)
   const [Mark, setMark] = useState(null)
   const [Options, setOptions] = useState(null)
+  const [imageId, setImageId] = useState(null)
+  const images = [image0]
+
+  useEffect(() => {
+    async function getNewGame() {
+      const request = await fetch('http://127.0.0.1:3000/')
+      const response = await request.json()
+      console.log(response)
+      setImageId(response)
+    }
+    getNewGame()
+  }, [])
 
   const handleClick = (e) => {
     const containerX = imageContainer.current.getBoundingClientRect().x
@@ -62,11 +74,15 @@ export default function FindTheHalo() {
     console.log(x, y)
   }
 
+  if (imageId === null) {
+    return <div>Loading</div>
+  }
+
   return (
     <div>
       <div className="static" ref={imageContainer} onClick={handleClick}>
         <Dropdown Mark={Mark} Options={Options} />
-        <img src={image0} />
+        <img src={images[imageId]} />
       </div>
     </div>
   )
