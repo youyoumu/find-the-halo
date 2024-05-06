@@ -9,7 +9,7 @@ export default function FindTheHalo() {
   const [imageId, setImageId] = useState(null)
   const [gameId, setGameId] = useState(null)
   const images = [image0]
-  const [HitMark, setHitMark] = useState(null)
+  const [HitMark, setHitMark] = useState([])
 
   useEffect(() => {
     async function getNewGame() {
@@ -53,21 +53,27 @@ export default function FindTheHalo() {
         style={{ left: `${markX}px`, top: `${markY + 24}px` }}
       >
         <li>
-          <a>Item 1</a>
+          <a onClick={() => guessCoordinates(1)}>Halo 1</a>
         </li>
         <li>
-          <a>Item 2</a>
+          <a onClick={() => guessCoordinates(2)}>Halo 2</a>
         </li>
       </ul>
     )
 
-    async function myMethod() {
+    async function guessCoordinates(hitBoxId) {
       const request = await fetch('http://127.0.0.1:3000/game', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ x, y, game_id: gameId, image_id: imageId })
+        body: JSON.stringify({
+          x,
+          y,
+          game_id: gameId,
+          image_id: imageId,
+          hit_box_id: hitBoxId
+        })
       })
       const response = await request.json()
       console.log(response)
@@ -81,22 +87,24 @@ export default function FindTheHalo() {
           ((response.coordinates.y_end - response.coordinates.y_start) *
             containerHeight) /
           100
+        const left = (response.coordinates.x_start * containerWidth) / 100
+        const top = (response.coordinates.y_start * containerHeight) / 100
         const hitMark = (
           <div
             className="absolute border-2 border-warning"
             style={{
               width,
               height,
-              left: response.coordinates.x_start,
-              top: response.coordinates.y_start
+              left,
+              top
             }}
+            key={hitBoxId}
           ></div>
         )
-        setHitMark(hitMark)
+        setHitMark((HitMark) => [...HitMark, hitMark])
       }
     }
 
-    myMethod()
     console.log(x, y)
   }
 
