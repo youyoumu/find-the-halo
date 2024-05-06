@@ -1,6 +1,9 @@
 import image0 from './images/0.png'
 import { useRef, useState, useEffect } from 'react'
 import Dropdown from './components/Dropdown'
+import wakamoHalo from './images/halo/Wakamo_Halo.png'
+import nagisaHalo from './images/halo/Nagisa_Halo.png'
+import aliceHalo from './images/halo/Alice_Halo.png'
 
 export default function FindTheHalo() {
   const imageContainer = useRef(null)
@@ -10,6 +13,13 @@ export default function FindTheHalo() {
   const [gameId, setGameId] = useState(null)
   const images = [image0]
   const [HitMark, setHitMark] = useState([])
+  const halos = [wakamoHalo, nagisaHalo, aliceHalo]
+
+  const Halos = () => {
+    return halos.map((halo, i) => {
+      return <img key={i} className="w-10 h-10" src={halo} alt="halo" />
+    })
+  }
 
   useEffect(() => {
     async function getNewGame() {
@@ -114,6 +124,9 @@ export default function FindTheHalo() {
 
   return (
     <div>
+      <div>
+        <Halos />
+      </div>
       <div className="static" ref={imageContainer} onClick={handleClick}>
         {HitMark}
         <Dropdown Mark={Mark} Options={Options} />
