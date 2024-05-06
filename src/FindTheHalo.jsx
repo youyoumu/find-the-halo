@@ -9,6 +9,7 @@ export default function FindTheHalo() {
   const [imageId, setImageId] = useState(null)
   const [gameId, setGameId] = useState(null)
   const images = [image0]
+  const [HitMark, setHitMark] = useState(null)
 
   useEffect(() => {
     async function getNewGame() {
@@ -68,7 +69,31 @@ export default function FindTheHalo() {
         },
         body: JSON.stringify({ x, y, game_id: gameId, image_id: imageId })
       })
-      console.log(request)
+      const response = await request.json()
+      console.log(response)
+
+      if (response.hit) {
+        const width =
+          ((response.coordinates.x_end - response.coordinates.x_start) *
+            containerWidth) /
+          100
+        const height =
+          ((response.coordinates.y_end - response.coordinates.y_start) *
+            containerHeight) /
+          100
+        const hitMark = (
+          <div
+            className="absolute border-2 border-warning"
+            style={{
+              width,
+              height,
+              left: response.coordinates.x_start,
+              top: response.coordinates.y_start
+            }}
+          ></div>
+        )
+        setHitMark(hitMark)
+      }
     }
 
     myMethod()
@@ -82,6 +107,7 @@ export default function FindTheHalo() {
   return (
     <div>
       <div className="static" ref={imageContainer} onClick={handleClick}>
+        {HitMark}
         <Dropdown Mark={Mark} Options={Options} />
         <img src={images[imageId]} />
       </div>
