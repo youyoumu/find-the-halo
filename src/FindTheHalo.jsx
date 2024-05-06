@@ -15,6 +15,8 @@ export default function FindTheHalo() {
   const [HitMark, setHitMark] = useState([])
   const halos = [wakamoHalo, nagisaHalo, aliceHalo]
   const [allowClick, setAllowClick] = useState(true)
+  const modal = useRef(null)
+  const [showModal, setShowModal] = useState(false)
 
   const Halos = () => {
     return halos.map((halo, i) => {
@@ -144,10 +146,34 @@ export default function FindTheHalo() {
           ></div>
         )
         setHitMark((HitMark) => [...HitMark, hitMark])
+        if (response.total_hit_boxes === response.total_cleared) {
+          setShowModal(true)
+        }
       }
     }
 
     console.log(x, y)
+  }
+
+  const Modal = () => {
+    if (!showModal) return null
+
+    return (
+      <dialog ref={modal} id="my_modal_1" className="modal modal-open">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg">Hello!</h3>
+          <p className="py-4">
+            Press ESC key or click the button below to close
+          </p>
+          <div className="modal-action">
+            <form method="dialog">
+              {/* if there is a button in form, it will close the modal */}
+              <button className="btn">Close</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
+    )
   }
 
   if (imageId === null) {
@@ -167,6 +193,7 @@ export default function FindTheHalo() {
           <img src={images[imageId]} />
         </div>
       </div>
+      <Modal />
     </div>
   )
 }
