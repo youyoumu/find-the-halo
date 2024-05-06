@@ -53,8 +53,8 @@ export default function FindTheHalo() {
     const x = ((e.pageX - containerX) / containerWidth) * 100
     const y = ((e.pageY - containerY) / containerHeight) * 100
 
-    const markX = (x * containerWidth) / 100 - 8
-    const markY = (y * containerHeight) / 100 - 8
+    const markX = (x * containerWidth) / 100
+    const markY = (y * containerHeight) / 100
 
     setMark(
       <div
@@ -63,7 +63,7 @@ export default function FindTheHalo() {
         className={`absolute w-10 h-10`}
         style={{ left: `${markX}px`, top: `${markY}px` }}
       >
-        <div className="w-4 h-4 bg-warning rounded-full"></div>
+        <div className="w-1 h-1 bg-warning rounded-full"></div>
       </div>
     )
 
@@ -89,6 +89,15 @@ export default function FindTheHalo() {
             onMouseLeave={() => setAllowClick(true)}
           >
             Halo 2
+          </a>
+        </li>
+        <li>
+          <a
+            onClick={() => guessCoordinates(3)}
+            onMouseEnter={() => setAllowClick(false)}
+            onMouseLeave={() => setAllowClick(true)}
+          >
+            Halo 3
           </a>
         </li>
       </ul>
