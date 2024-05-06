@@ -132,14 +132,17 @@ export default function FindTheHalo() {
   }
 
   return (
-    <div className="flex">
-      <div className="flex flex-col max-w-20 md:max-w-28 lg:max-w-36 p-3 gap-2">
-        <Halos />
-      </div>
-      <div className="relative" ref={imageContainer} onClick={handleClick}>
-        {HitMark}
-        <Dropdown Mark={Mark} Options={Options} />
-        <img src={images[imageId]} />
+    <div>
+      <div className="text-center text-3xl pt-4 mb-4">Find the Halo</div>
+      <div className="flex">
+        <div className="flex flex-col max-w-20 md:max-w-28 lg:max-w-36 p-3 gap-2">
+          <Halos />
+        </div>
+        <div className="relative" ref={imageContainer} onClick={handleClick}>
+          {HitMark}
+          <Dropdown Mark={Mark} Options={Options} />
+          <img src={images[imageId]} />
+        </div>
       </div>
     </div>
   )
