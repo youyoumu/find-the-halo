@@ -33,8 +33,10 @@ export default function FindTheHalo() {
   }, [])
 
   const handleClick = (e) => {
-    const containerX = imageContainer.current.getBoundingClientRect().x
-    const containerY = imageContainer.current.getBoundingClientRect().y
+    const bodyX = document.body.getBoundingClientRect().x
+    const bodyY = document.body.getBoundingClientRect().y
+    const containerX = imageContainer.current.getBoundingClientRect().x - bodyX
+    const containerY = imageContainer.current.getBoundingClientRect().y - bodyY
     const containerWidth = imageContainer.current.getBoundingClientRect().width
     const containerHeight =
       imageContainer.current.getBoundingClientRect().height
@@ -42,8 +44,8 @@ export default function FindTheHalo() {
     const x = ((e.pageX - containerX) / containerWidth) * 100
     const y = ((e.pageY - containerY) / containerHeight) * 100
 
-    const markX = e.pageX - containerX - 8
-    const markY = e.pageY - containerY - 8
+    const markX = (x * containerWidth) / 100 - 8
+    const markY = (y * containerHeight) / 100 - 8
 
     setMark(
       <div
@@ -127,7 +129,7 @@ export default function FindTheHalo() {
       <div>
         <Halos />
       </div>
-      <div className="static" ref={imageContainer} onClick={handleClick}>
+      <div className="relative" ref={imageContainer} onClick={handleClick}>
         {HitMark}
         <Dropdown Mark={Mark} Options={Options} />
         <img src={images[imageId]} />
