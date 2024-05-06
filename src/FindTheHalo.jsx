@@ -14,6 +14,7 @@ export default function FindTheHalo() {
   const images = [image0]
   const [HitMark, setHitMark] = useState([])
   const halos = [wakamoHalo, nagisaHalo, aliceHalo]
+  const [allowClick, setAllowClick] = useState(true)
 
   const Halos = () => {
     return halos.map((halo, i) => {
@@ -22,7 +23,7 @@ export default function FindTheHalo() {
           <div className="text-center mt-2 text-xs sm:text-sm md:text-md">{`Halo ${
             i + 1
           }`}</div>
-          <img className="" src={halo} alt="halo" />
+          <img src={halo} alt="halo" />
         </div>
       )
     })
@@ -40,6 +41,7 @@ export default function FindTheHalo() {
   }, [])
 
   const handleClick = (e) => {
+    if (!allowClick) return
     const bodyX = document.body.getBoundingClientRect().x
     const bodyY = document.body.getBoundingClientRect().y
     const containerX = imageContainer.current.getBoundingClientRect().x - bodyX
@@ -72,10 +74,22 @@ export default function FindTheHalo() {
         style={{ left: `${markX}px`, top: `${markY + 24}px` }}
       >
         <li>
-          <a onClick={() => guessCoordinates(1)}>Halo 1</a>
+          <a
+            onClick={() => guessCoordinates(1)}
+            onMouseEnter={() => setAllowClick(false)}
+            onMouseLeave={() => setAllowClick(true)}
+          >
+            Halo 1
+          </a>
         </li>
         <li>
-          <a onClick={() => guessCoordinates(2)}>Halo 2</a>
+          <a
+            onClick={() => guessCoordinates(2)}
+            onMouseEnter={() => setAllowClick(false)}
+            onMouseLeave={() => setAllowClick(true)}
+          >
+            Halo 2
+          </a>
         </li>
       </ul>
     )
