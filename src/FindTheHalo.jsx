@@ -17,7 +17,14 @@ export default function FindTheHalo() {
 
   const Halos = () => {
     return halos.map((halo, i) => {
-      return <img key={i} className="w-10 h-10" src={halo} alt="halo" />
+      return (
+        <div key={i} className="shadow-sm p-2 rounded-md border-2">
+          <div className="text-center mt-2 text-xs sm:text-sm md:text-md">{`Halo ${
+            i + 1
+          }`}</div>
+          <img className="" src={halo} alt="halo" />
+        </div>
+      )
     })
   }
 
@@ -125,8 +132,8 @@ export default function FindTheHalo() {
   }
 
   return (
-    <div>
-      <div>
+    <div className="flex">
+      <div className="flex flex-col max-w-20 md:max-w-28 lg:max-w-36 p-3 gap-2">
         <Halos />
       </div>
       <div className="relative" ref={imageContainer} onClick={handleClick}>
