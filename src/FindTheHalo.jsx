@@ -20,6 +20,7 @@ export default function FindTheHalo() {
   const [howLongToBeat, setHowLongToBeat] = useState(null)
   const nameInputRef = useRef(null)
   const [scores, setScores] = useState(null)
+  const [allowMark, setAllowMark] = useState(true)
 
   const Halos = () => {
     return halos.map((halo, i) => {
@@ -191,6 +192,7 @@ export default function FindTheHalo() {
 
     setShowModal(false)
     setAllowClick(false)
+    setAllowMark(false)
   }
 
   const Modal = () => {
@@ -246,7 +248,7 @@ export default function FindTheHalo() {
         </div>
         <div className="relative" ref={imageContainer} onClick={handleClick}>
           {HitMark}
-          <Dropdown Mark={Mark} Options={Options} />
+          {allowMark ? <Dropdown Mark={Mark} Options={Options} /> : null}
           <img src={images[imageId]} />
         </div>
       </div>
