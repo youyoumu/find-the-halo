@@ -17,6 +17,7 @@ export default function FindTheHalo() {
   const [allowClick, setAllowClick] = useState(true)
   const modal = useRef(null)
   const [showModal, setShowModal] = useState(false)
+  const [howLongToBeat, setHowLongToBeat] = useState(null)
 
   const Halos = () => {
     return halos.map((halo, i) => {
@@ -148,6 +149,7 @@ export default function FindTheHalo() {
         setHitMark((HitMark) => [...HitMark, hitMark])
         if (response.total_hit_boxes === response.total_cleared) {
           setShowModal(true)
+          setHowLongToBeat(response.how_long_to_beat)
         }
       }
     }
@@ -161,16 +163,20 @@ export default function FindTheHalo() {
     return (
       <dialog ref={modal} id="my_modal_1" className="modal modal-open">
         <div className="modal-box">
-          <h3 className="font-bold text-lg">Hello!</h3>
-          <p className="py-4">
-            Press ESC key or click the button below to close
-          </p>
-          <div className="modal-action">
-            <form method="dialog">
-              {/* if there is a button in form, it will close the modal */}
-              <button className="btn">Close</button>
-            </form>
-          </div>
+          <h3 className="font-bold text-lg">{`You cleared the game in ${howLongToBeat} seconds`}</h3>
+          <p>Enter your name to submit your score</p>
+          <form action="" className="mt-4">
+            <div className="join">
+              <input
+                type="text"
+                placeholder="Your name"
+                className="input input-bordered w-full max-w-xs join-item"
+              />
+              <button className="btn join-item btn-primary" type="submit">
+                Submit
+              </button>
+            </div>
+          </form>
         </div>
       </dialog>
     )
