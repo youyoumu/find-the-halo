@@ -18,6 +18,7 @@ export default function FindTheHalo() {
   const modal = useRef(null)
   const [showModal, setShowModal] = useState(false)
   const [howLongToBeat, setHowLongToBeat] = useState(null)
+  const nameInputRef = useRef(null)
 
   const Halos = () => {
     return halos.map((halo, i) => {
@@ -157,6 +158,24 @@ export default function FindTheHalo() {
     console.log(x, y)
   }
 
+  const handleNameSubmit = (e) => {
+    e.preventDefault()
+    const name = nameInputRef.current.value
+    fetch('http://127.0.0.1:3000/scores', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        player_name: name,
+        game_id: gameId
+      })
+    })
+    nameInputRef.current.value = ''
+    setShowModal(false)
+    setAllowClick(false)
+  }
+
   const Modal = () => {
     if (!showModal) return null
 
@@ -165,18 +184,23 @@ export default function FindTheHalo() {
         <div className="modal-box">
           <h3 className="font-bold text-lg">{`You cleared the game in ${howLongToBeat} seconds`}</h3>
           <p>Enter your name to submit your score</p>
-          <form action="" className="mt-4">
-            <div className="join">
-              <input
-                type="text"
-                placeholder="Your name"
-                className="input input-bordered w-full max-w-xs join-item"
-              />
-              <button className="btn join-item btn-primary" type="submit">
-                Submit
-              </button>
-            </div>
-          </form>
+          <div className="join">
+            <input
+              ref={nameInputRef}
+              type="text"
+              placeholder="Your name"
+              className="input input-bordered w-full max-w-xs join-item"
+              name="player_name"
+            />
+            <input type="hidden" name="game_id" value={gameId} />
+            <button
+              className="btn join-item btn-primary"
+              type="submit"
+              onClick={handleNameSubmit}
+            >
+              Submit
+            </button>
+          </div>
         </div>
       </dialog>
     )
