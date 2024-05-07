@@ -21,6 +21,8 @@ export default function FindTheHalo() {
   const nameInputRef = useRef(null)
   const [scores, setScores] = useState(null)
   const [allowMark, setAllowMark] = useState(true)
+  const [time, setTime] = useState(0)
+  const [timerIsRunning, setTimerIsRunning] = useState(true)
 
   const Halos = () => {
     return halos.map((halo, i) => {
@@ -52,6 +54,13 @@ export default function FindTheHalo() {
     getNewGame()
     getScores()
   }, [])
+
+  useEffect(() => {
+    if (!timerIsRunning) return
+    const intervalId = setInterval(() => setTime(time + 1), 1000)
+
+    return () => clearInterval(intervalId)
+  }, [time, timerIsRunning])
 
   const handleClick = (e) => {
     if (!allowClick) return
@@ -158,6 +167,7 @@ export default function FindTheHalo() {
         )
         setHitMark((HitMark) => [...HitMark, hitMark])
         if (response.total_hit_boxes === response.total_cleared) {
+          setTimerIsRunning(false)
           setShowModal(true)
           setHowLongToBeat(response.how_long_to_beat)
         }
@@ -241,7 +251,12 @@ export default function FindTheHalo() {
 
   return (
     <div>
-      <div className="text-center text-3xl pt-4 mb-4">Find the Halo</div>
+      <div className="flex items-center justify-between px-8">
+        <div className="text-center text-3xl pt-4 mb-4 flex-1">
+          Find the Halo
+        </div>
+        <div className="text-xl">{time}</div>
+      </div>
       <div className="flex">
         <div className="flex flex-col max-w-20 md:max-w-28 lg:max-w-36 p-3 gap-2">
           <Halos />
