@@ -5,6 +5,9 @@ import wakamoHalo from './images/halo/Wakamo_Halo.png'
 import nagisaHalo from './images/halo/Nagisa_Halo.png'
 import aliceHalo from './images/halo/Alice_Halo.png'
 
+const backEndUrl = import.meta.env.VITE_BACK_END_URL
+console.log(backEndUrl)
+
 export default function FindTheHalo() {
   const imageContainer = useRef(null)
   const [Mark, setMark] = useState(null)
@@ -41,7 +44,7 @@ export default function FindTheHalo() {
   useEffect(() => {
     async function getNewGame() {
       try {
-        const request = await fetch('http://127.0.0.1:3000/')
+        const request = await fetch(`${backEndUrl}/`)
         const response = await request.json()
         console.log(response)
         setImageId(response.image_id)
@@ -52,7 +55,7 @@ export default function FindTheHalo() {
       }
     }
     async function getScores() {
-      const request = await fetch('http://127.0.0.1:3000/scores')
+      const request = await fetch(`${backEndUrl}/scores`)
       const response = await request.json()
       console.log(response)
       setScores(response)
@@ -132,7 +135,7 @@ export default function FindTheHalo() {
     )
 
     async function guessCoordinates(hitBoxId) {
-      const request = await fetch('http://127.0.0.1:3000/game', {
+      const request = await fetch(`${backEndUrl}/game`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -186,7 +189,7 @@ export default function FindTheHalo() {
   const handleNameSubmit = (e) => {
     e.preventDefault()
     const name = nameInputRef.current.value
-    fetch('http://127.0.0.1:3000/scores', {
+    fetch(`${backEndUrl}/scores`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -199,7 +202,7 @@ export default function FindTheHalo() {
     nameInputRef.current.value = ''
 
     async function getScores() {
-      const request = await fetch('http://127.0.0.1:3000/scores')
+      const request = await fetch(`${backEndUrl}/scores`)
       const response = await request.json()
       console.log(response)
       setScores(response)
