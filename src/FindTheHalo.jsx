@@ -92,9 +92,9 @@ export default function FindTheHalo() {
         tabIndex={0}
         role="button"
         className={`absolute w-10 h-10`}
-        style={{ left: `${markX}px`, top: `${markY}px` }}
+        style={{ left: `${markX - 8}px`, top: `${markY - 8}px` }}
       >
-        <div className="w-1 h-1 bg-warning rounded-full"></div>
+        <div className="w-4 h-4 bg-warning rounded-full"></div>
       </div>
     )
 
