@@ -19,6 +19,7 @@ export default function FindTheHalo() {
   const [showModal, setShowModal] = useState(false)
   const [howLongToBeat, setHowLongToBeat] = useState(null)
   const nameInputRef = useRef(null)
+  const [scores, setScores] = useState(null)
 
   const Halos = () => {
     return halos.map((halo, i) => {
@@ -41,7 +42,14 @@ export default function FindTheHalo() {
       setImageId(response.image_id)
       setGameId(response.game_id)
     }
+    async function getScores() {
+      const request = await fetch('http://127.0.0.1:3000/scores')
+      const response = await request.json()
+      console.log(response)
+      setScores(response)
+    }
     getNewGame()
+    getScores()
   }, [])
 
   const handleClick = (e) => {
@@ -172,6 +180,15 @@ export default function FindTheHalo() {
       })
     })
     nameInputRef.current.value = ''
+
+    async function getScores() {
+      const request = await fetch('http://127.0.0.1:3000/scores')
+      const response = await request.json()
+      console.log(response)
+      setScores(response)
+    }
+    getScores()
+
     setShowModal(false)
     setAllowClick(false)
   }
@@ -206,6 +223,16 @@ export default function FindTheHalo() {
     )
   }
 
+  function Scores() {
+    return scores.map((score, i) => {
+      return (
+        <div key={score.id}>
+          {`${i + 1}. ${score.player_name} - ${score.how_long_to_beat} seconds`}
+        </div>
+      )
+    })
+  }
+
   if (imageId === null) {
     return <div>Loading</div>
   }
@@ -222,6 +249,10 @@ export default function FindTheHalo() {
           <Dropdown Mark={Mark} Options={Options} />
           <img src={images[imageId]} />
         </div>
+      </div>
+      <div className="flex flex-col items-center border-2 max-w-sm mx-auto mt-8 mb-4 rounded-md p-4">
+        <h3 className="text-2xl font-bold mb-2">Scores</h3>
+        <Scores />
       </div>
       <Modal />
     </div>
