@@ -23,6 +23,7 @@ export default function FindTheHalo() {
   const [allowMark, setAllowMark] = useState(true)
   const [time, setTime] = useState(0)
   const [timerIsRunning, setTimerIsRunning] = useState(true)
+  const [error, setError] = useState(null)
 
   const Halos = () => {
     return halos.map((halo, i) => {
@@ -39,11 +40,16 @@ export default function FindTheHalo() {
 
   useEffect(() => {
     async function getNewGame() {
-      const request = await fetch('http://127.0.0.1:3000/')
-      const response = await request.json()
-      console.log(response)
-      setImageId(response.image_id)
-      setGameId(response.game_id)
+      try {
+        const request = await fetch('http://127.0.0.1:3000/')
+        const response = await request.json()
+        console.log(response)
+        setImageId(response.image_id)
+        setGameId(response.game_id)
+      } catch (err) {
+        console.log(err)
+        setError(err)
+      }
     }
     async function getScores() {
       const request = await fetch('http://127.0.0.1:3000/scores')
@@ -246,7 +252,13 @@ export default function FindTheHalo() {
   }
 
   if (imageId === null) {
-    return <div>Loading</div>
+    return (
+      <div className="text-3xl flex justify-center items-center h-screen">
+        <div>
+          {error ? <div>Server is offline</div> : <div>Loading...</div>}
+        </div>
+      </div>
+    )
   }
 
   return (
